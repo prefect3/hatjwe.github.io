@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="苏御">
+    <meta name="keywords" content="利用Request Smuggling进行账户劫持, 苏御">
     <meta name="description" content="11">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>苏御</title>
+    <title>利用Request Smuggling进行账户劫持 | 苏御</title>
     <link rel="icon" type="image/jpeg" href="/favicon.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title"></h1>
+                    <h1 class="description center-align post-title">利用Request Smuggling进行账户劫持</h1>
                 </div>
             </div>
         </div>
@@ -333,12 +333,33 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                                <span class="chip bg-color">漏洞复现</span>
+                            </a>
+                        
+                            <a href="/tags/web%E5%AE%89%E5%85%A8/">
+                                <span class="chip bg-color">web安全</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/web%E5%AE%89%E5%85%A8/" class="post-category">
+                                web安全
+                            </a>
+                        
+                            <a href="/categories/web%E5%AE%89%E5%85%A8/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" class="post-category">
+                                漏洞复现
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -347,21 +368,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-07-17
+                    2020-07-24
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-07-08
+                    2020-07-30
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    21
+                    454
                 </div>
                 
 
@@ -383,10 +404,10 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                title: 404
-type: "404"
-layout: "404"
-description: "Oops～，我崩溃了！找不到你想要的页面 :("
+                <p>什么是Request Smuggling</p>
+<p> 简而言之就是一种模糊的请求，当我们向代理服务器发送http请求时，由于两者服务器的实现方式不同，可能代理服务器认为这是一个http请求，然后将其转发给了后端，但后端服务器经过解析处理后，只认为其中的一部分为正常请求，剩下的那些，就算是走私请求，当该部分对正常用户造成了影响之后，就实现了HTTP走私攻击。</p>
+<p>在默认情况下，HTTP协议中每个传输层只能承载一个HTTP请求和响应，浏览器收到上一个请求响应后，才能开始下一个请求。<br>这里简单介绍下Transfer-Encoding这是一个请求包通用头域，前后端往往对于Transfer-Encoding和我们常用的Content-Length优先级不同容易造成漏洞。<br>Transfer-Encoding一般被人应用于分块传输绕WAF，但今天我主要想说说另一种攻击手法利用Request Smuggling进行账户劫持<br>Request Smuggling账户劫持：<br>如果在我们的恶意请求之后，其他用户也进行了请求，我们可以构造POST请求将获得的数据储存并展示出来用户的请求会带上很多敏感信息如cookie,参数等。<br>这里我利用靶场进行演示：<br><a href="https://portswigger.net/web-security/request-smuggling/exploiting/lab-capture-other-users-requests" target="_blank" rel="noopener">https://portswigger.net/web-security/request-smuggling/exploiting/lab-capture-other-users-requests</a><br>1.首先我们点击Access the lab进入环境（需要登录）<br><img src="https://img-blog.csdnimg.cn/20200730154325133.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3MxMDU2NDgxNDMy,size_16,color_FFFFFF,t_70" alt><br>2.打开个页面进入评论。<br><img src="https://img-blog.csdnimg.cn/20200730152620988.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3MxMDU2NDgxNDMy,size_16,color_FFFFFF,t_70" alt><br>3.进行抓包通过Transfer-Encoding对抓取的数据包进行拼接，之后下个用户评论时其敏感信息就会出现在评论上。<br><img src="https://img-blog.csdnimg.cn/20200730153905118.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3MxMDU2NDgxNDMy,size_16,color_FFFFFF,t_70" alt><br>4.将抓取的包进行拼接。<br><img src="https://img-blog.csdnimg.cn/20200730154708387.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3MxMDU2NDgxNDMy,size_16,color_FFFFFF,t_70" alt><br>5.成功截取用户的敏感信息。<br><img src="https://img-blog.csdnimg.cn/20200730154819814.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3MxMDU2NDgxNDMy,size_16,color_FFFFFF,t_70" alt></p>
+
             </div>
             <hr/>
 
@@ -411,7 +432,7 @@ description: "Oops～，我崩溃了！找不到你想要的页面 :("
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://hatjwe.github.io/404.html">http://hatjwe.github.io/404.html</a>
+                    <a href="http://hatjwe.github.io/2020/07/24/article2/">http://hatjwe.github.io/2020/07/24/article2/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -448,7 +469,15 @@ description: "Oops～，我崩溃了！找不到你想要的页面 :("
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                                    <span class="chip bg-color">漏洞复现</span>
+                                </a>
+                            
+                                <a href="/tags/web%E5%AE%89%E5%85%A8/">
+                                    <span class="chip bg-color">web安全</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -660,42 +689,58 @@ description: "Oops～，我崩溃了！找不到你想要的页面 :("
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/404.html">
+                <a href="/2020/07/28/article3/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Weblogic WLS Core Components 反序列化命令执行漏洞（CVE-2018-2628）">
                         
-                        <span class="card-title"></span>
+                        <span class="card-title">Weblogic WLS Core Components 反序列化命令执行漏洞（CVE-2018-2628）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            title: 404
-type: "404"
-layout: "404"
-description: "Oops～，我崩溃了！找不到你想要的页面 :("
+                            漏洞介绍
+Oracle 2018年4月补丁中，修复了Weblogic Server WLS Core Components中出现的一个反序列化漏洞（CVE-2018-2628），该漏洞通过t3协议触发，可导致未授权的用户在远程服务器执行任意
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-17
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-07-28
+                        </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/web%E5%AE%89%E5%85%A8/" class="post-category">
+                                    web安全
+                                </a>
+                            
+                            <a href="/categories/web%E5%AE%89%E5%85%A8/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" class="post-category">
+                                    漏洞复现
+                                </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                        <span class="chip bg-color">漏洞复现</span>
+                    </a>
+                    
+                    <a href="/tags/web%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">web安全</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -703,40 +748,56 @@ description: "Oops～，我崩溃了！找不到你想要的页面 :("
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/404.html">
+                <a href="/2020/07/23/article1/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="CVE-2020-0796复现漏洞">
                         
-                        <span class="card-title"></span>
+                        <span class="card-title">CVE-2020-0796复现漏洞</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            title: 404
-type: "404"
-layout: "404"
-description: "Oops～，我崩溃了！找不到你想要的页面 :("
+                            1.漏洞介绍1.背景：微软最近宣布了SMBv3.1.1压缩机制中的一个bug。这个bug也被称为“SMBGhost”。这个错误在托管网络中有严重的影响。Windows 10版本1903和1909受到影响。在Windows SMBv3版本的客
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-23
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/" class="post-category">
+                                    内网渗透
+                                </a>
+                            
+                            <a href="/categories/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" class="post-category">
+                                    漏洞复现
+                                </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F/">
+                        <span class="chip bg-color">内网渗透</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                        <span class="chip bg-color">漏洞复现</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>

